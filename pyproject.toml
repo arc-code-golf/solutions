@@ -18,3 +18,6 @@ dev = ["ruff>=0.14.3", "ty>=0.0.1a25"]
 
 [tool.ruff]
 exclude = ["solutions", "build"]
+
+[tool.ty.src]
+exclude = ["solutions/", "build/"]

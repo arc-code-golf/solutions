@@ -1,4 +1,4 @@
 def p(a):e={m*1j+f:a for m,a in enumerate(a)for f,a in enumerate(a)if a};[(l:={r},[l:={r}|l for r in[*e]*5for u in l if abs(r-u)<2],[*l][3:]and[5for i in[1,3,6,7]for n in e if all(sum(e[u]==e.get(f)for f in[*l,(u-r-i//4*(u-r).real*2)*1j**i+n])>1for u in l)for u in l if(a:=[[{u:0,(u-r-i//4*(u-r).real*2)*1j**i+n:e[u]}.get(m*1j+f,a)for f,a in enumerate(a)]for m,a in enumerate(a)])])for r in e];return a
 # ----------------------------------------------------------------
-# compression: auto
-# oxjam
+# compression: frozen
+# huffman: 8510c7020120f4573a56b277e447d2211491109df0ef2a7bd71b734f

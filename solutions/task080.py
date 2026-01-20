@@ -1,4 +1,4 @@
-def p(f):n=f.index(min(f,key=set))+1;e={u*1j+o:f for u,f in enumerate(f[::n])for o,f in enumerate(f[::n])};return[[[f or[e[t:=u//n*1j+o//n],*[e[a+t-r]for r in e if(e[r]==e[a])*2>abs(t-r)]][-1]for o,f in enumerate(f)]for u,f in enumerate(f)]for a in e if all(e.get(a+1j**u)for u,f in enumerate(f))][-1]
+def p(e):o=e.index(min(e,key=set))+1;f={a*1j+r:e for a,e in enumerate(e[::o])for r,e in enumerate(e[::o])};return[[[e or[f[s:=a//o*1j+r//o],*[f[n+s-e]for e in f if(f[e]==f[n])*2>abs(s-e)]][-1]for r,e in enumerate(e)]for a,e in enumerate(e)]for n in f if all(f.get(n+1j**a)for a,e in enumerate(e))][-1]
 # ----------------------------------------------------------------
-# compression: auto
-# oxjam
+# compression: frozen
+# huffman: 754d4902012014bd4acb466419b9485a841f415101b83bc28ee6de38

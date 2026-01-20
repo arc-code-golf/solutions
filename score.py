@@ -1,4 +1,3 @@
-import os
 import sys
 from pathlib import Path
 
@@ -9,7 +8,7 @@ def calculate_score(directory: Path) -> int:
     for problem in range(1, 401):
         problem_file = directory / f"task{problem:03d}.py"
         if problem_file.exists():
-            bytes_count = os.path.getsize(problem_file)
+            bytes_count = problem_file.stat().st_size
             score = max(1, 2500 - bytes_count)
             total_score += score
 

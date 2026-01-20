@@ -1,11 +1,9 @@
-from __future__ import annotations
-
-import argparse
 import sys
-
-from common import Task, TestCase
+from argparse import ArgumentParser
 
 from blessed import Terminal
+
+from common import Task, TestCase
 
 
 def print_matrix(term: Terminal, matrix: list[list[int]]) -> None:
@@ -37,6 +35,7 @@ def show_testcase(
     task_num: int,
     tc_idx: int,
     total_tcs: int,
+    *,
     interactive: bool = True,
 ) -> None:
     print(term.home + term.clear, end="")
@@ -45,7 +44,7 @@ def show_testcase(
     print()
     print(
         term.bold_underline(f"Task {task_num:03d}")
-        + f" - {label} ({tc_idx + 1}/{total_tcs})"
+        + f" - {label} ({tc_idx + 1}/{total_tcs})",
     )
     print()
     print(f"Input ({len(testcase.input)}x{len(testcase.input[0])}):")
@@ -59,10 +58,14 @@ def show_testcase(
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Show ARC tasks")
+    parser = ArgumentParser(description="Show ARC tasks")
     parser.add_argument("task", nargs="?", type=int, default=1, help="Task number")
     parser.add_argument(
-        "testcase", nargs="?", type=int, default=1, help="Test case number"
+        "testcase",
+        nargs="?",
+        type=int,
+        default=1,
+        help="Test case number",
     )
     parser.add_argument("-p", "--print", action="store_true", help="Print and quit")
     args = parser.parse_args()
@@ -78,7 +81,15 @@ def main() -> None:
             print(f"Test case {tc_idx + 1} does not exist")
             sys.exit(1)
         label, testcase = examples[tc_idx]
-        show_testcase(term, testcase, label, task_num, tc_idx, len(examples), False)
+        show_testcase(
+            term,
+            testcase,
+            label,
+            task_num,
+            tc_idx,
+            len(examples),
+            interactive=False,
+        )
         return
 
     try:
@@ -118,9 +129,9 @@ def main() -> None:
                                 if 0 <= new_tc < len(examples):
                                     tc_idx = new_tc
                             break
-                        elif k.name == "KEY_ESCAPE":
+                        if k.name == "KEY_ESCAPE":
                             break
-                        elif k.isdigit():
+                        if k.isdigit():
                             num_str += k
                             print(k, end="")
                             sys.stdout.flush()
@@ -143,9 +154,9 @@ def main() -> None:
                                     examples = task.all()
                                     tc_idx = 0
                             break
-                        elif k.name == "KEY_ESCAPE":
+                        if k.name == "KEY_ESCAPE":
                             break
-                        elif k.isdigit():
+                        if k.isdigit():
                             num_str += k
                             print(k, end="")
                             sys.stdout.flush()

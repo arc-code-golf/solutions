@@ -1,8 +1,8 @@
-def	p(i):
-	e=i
-	for	o	in	e*4:e=[[*o]for	o	in	zip(*e[~4:])if{*o}-{0,4}];i=[[*o]for	o	in	zip(*i[(4in	i[-1])-2::-1])]
-	for	o,f	in	enumerate(i):
-		if[0for	t,f	in	enumerate(i)for	a,f	in	enumerate(o*f)for	r,f	in	enumerate(o*all(i	in[0,((e+20*[[]])[(r-t)//o]+20*[4])[(n-a)//o]]for	r,i	in	enumerate(i)for	n,i	in	enumerate(i))*e)for	n,f	in	enumerate(o*f)for	i[r+t][n+a]in[e[r//o][n//o]]]:return	i
+def p(e):
+ f=e
+ for i in f*4:f=[[*i]for i in zip(*f[~4:])if{*i}-{0,4}];e=[[*i]for i in zip(*e[(4in e[-1])-2::-1])]
+ for(i,a)in enumerate(e):
+  if[0for(t,a)in enumerate(e)for(r,a)in enumerate(i*a)for(n,a)in enumerate(i*all(e in[0,((f+20*[[]])[(n-t)//i]+20*[4])[(o-r)//i]]for(n,e)in enumerate(e)for(o,e)in enumerate(e))*f)for(o,a)in enumerate(i*a)for e[n+t][o+r]in[f[n//i][o//i]]]:return e
 # ----------------------------------------------------------------
-# compression: auto
-# oxjam
+# compression: frozen
+# huffman: 6d4e3d02012014de9da2b122a0299ce46980170f8a640167a760a0a5eafb5f

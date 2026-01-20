@@ -1,22 +1,19 @@
-import argparse
 import copy
-from multiprocessing import Pool, cpu_count
-import os
-from pathlib import Path
 import sys
-import time
 import warnings
-
-from common import Task, load_solution
+from argparse import ArgumentParser
+from multiprocessing import Pool, cpu_count
+from pathlib import Path
 
 import numpy as np
+
+from common import Task, load_solution
 
 TASKS = Path("tasks")
 
 
-def test_task(args):
+def test_task(args: tuple[int, Path, int | None]) -> tuple[int, bool, int]:
     task_num, solutions_dir, max_cases = args
-    start_time = time.time()
 
     task = Task.load(task_num, TASKS)
     module = load_solution(task_num, solutions_dir)
@@ -41,16 +38,23 @@ def test_task(args):
         except Exception:
             pass
 
-    return task_num, passed == total, os.path.getsize(path)
+    return task_num, passed == total, path.stat().st_size
 
 
-def main():
-    parser = argparse.ArgumentParser(description="Test solutions")
+def main() -> None:
+    parser = ArgumentParser(description="Test solutions")
     parser.add_argument(
-        "tasks", nargs="*", type=int, help="Task numbers (default: all)"
+        "tasks",
+        nargs="*",
+        type=int,
+        help="Task numbers (default: all)",
     )
     parser.add_argument(
-        "-j", "--jobs", type=int, default=cpu_count(), help="Worker count"
+        "-j",
+        "--jobs",
+        type=int,
+        default=cpu_count(),
+        help="Worker count",
     )
     parser.add_argument(
         "-d",
@@ -75,10 +79,7 @@ def main():
 
     tasks_list = [(task_num, solutions_dir, max_cases) for task_num in tasks]
     with Pool(jobs) as pool:
-        results = []
-        for r in pool.imap_unordered(test_task, tasks_list):
-            if r:
-                results.append(r)
+        results = [r for r in pool.imap_unordered(test_task, tasks_list) if r]
 
     results.sort()
 
