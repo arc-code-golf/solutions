@@ -1,11 +1,12 @@
-from __future__ import annotations
-
-from dataclasses import dataclass
 import importlib.util
 import json
-from pathlib import Path
-from types import ModuleType
 import warnings
+from dataclasses import dataclass
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from types import ModuleType
 
 
 @dataclass(frozen=True, slots=True)
@@ -14,7 +15,7 @@ class TestCase:
     output: list[list[int]]
 
     @staticmethod
-    def from_dict(data: dict) -> TestCase:
+    def from_dict(data: dict) -> "TestCase":
         return TestCase(data["input"], data["output"])
 
 
@@ -38,17 +39,17 @@ class Task:
         return self.train + self.test + self.arc_gen
 
     @staticmethod
-    def from_dict(data: dict) -> Task:
+    def from_dict(data: dict) -> "Task":
         train = [TestCase.from_dict(tc) for tc in data["train"]]
         test = [TestCase.from_dict(tc) for tc in data["test"]]
         arc_gen = [TestCase.from_dict(tc) for tc in data["arc-gen"]]
         return Task(train, test, arc_gen)
 
     @staticmethod
-    def load(task_num: int, tasks_dir: Path = Path("tasks")) -> Task:
+    def load(task_num: int, tasks_dir: Path = Path("tasks")) -> "Task":
         task_filename = f"task{task_num:03d}.json"
         task_path = tasks_dir / task_filename
-        with open(task_path) as f:
+        with task_path.open() as f:
             task_data = json.load(f)
         return Task.from_dict(task_data)
 

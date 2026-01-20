@@ -1,17 +1,16 @@
-from pathlib import Path
-import re
 import sys
-import compress
+from pathlib import Path
 
+import compress
 
 input_dir = Path("solutions")
 output_dir = Path("build")
 
 
-def main():
+def main() -> None:
     if len(sys.argv) > 1:
         task_num = int(sys.argv[1])
-        tasks = [task_num]
+        tasks: list[int] = [task_num]
     else:
         tasks = range(1, 401)
 
@@ -20,22 +19,38 @@ def main():
 
     for i in tasks:
         filename = f"task{i:03d}.py"
-        with open(input_dir / filename, "r", encoding="latin-1") as f:
+        with (input_dir / filename).open(encoding="latin-1") as f:
             content = f.read()
 
-        match = re.search(r"# compression: auto", content)
+        source_content = content.split("\n#")[0]
+        source_bytes = source_content.encode("latin-1")
 
-        content = content.split("\n#")[0]
+        directives: dict[str, str] = {}
+        for line in content.split("\n"):
+            if line.startswith("# ") and ":" in line:
+                key, _, value = line[2:].partition(":")
+                directives[key.strip()] = value.strip()
 
-        if match:
-            source_bytes = content.encode("latin-1")
+        compression = directives.get("compression")
+
+        if compression == "frozen":
+            huffman_hex = directives.get("huffman", "")
+            if not huffman_hex:
+                print(f"Warning: {filename} has frozen compression but no huffman")
+                output = source_bytes
+            else:
+                output = compress.compress_frozen(source_bytes, huffman_hex)
+            with (output_dir / filename).open("wb") as f:
+                f.write(output)
+
+        elif compression == "auto":
             compressed, _ = compress.compress(source_bytes)
-
-            with open(output_dir / filename, "wb") as f:
+            with (output_dir / filename).open("wb") as f:
                 f.write(compressed)
+
         else:
-            with open(output_dir / filename, "w", encoding="latin-1") as f:
-                f.write(content)
+            with (output_dir / filename).open("w", encoding="latin-1") as f:
+                f.write(source_content)
 
 
 if __name__ == "__main__":

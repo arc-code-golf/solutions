@@ -1,10 +1,8 @@
-from __future__ import annotations
-
+import io
+import zlib
 from collections import defaultdict
 from functools import lru_cache
-import io
-from typing import NamedTuple, Optional
-import zlib
+from typing import NamedTuple
 
 
 class BitReader:
@@ -30,14 +28,15 @@ class BitString(NamedTuple):
     value: int
     size: int
 
-    def __add__(self, other: tuple[object, ...]) -> BitString:
+    def __add__(self, other: tuple[object, ...]) -> "BitString":
         if not isinstance(other, BitString):
             return NotImplemented
         return BitString(
-            (other.value << self.size) | self.value, self.size + other.size
+            (other.value << self.size) | self.value,
+            self.size + other.size,
         )
 
-    def to_bytes(self) -> tuple[bytes, BitString]:
+    def to_bytes(self) -> tuple[bytes, "BitString"]:
         data = self.value.to_bytes((self.size >> 3) + 1, "little")
         return data[:-1], BitString(data[-1], self.size & 7)
 
@@ -86,7 +85,7 @@ class Huffman:
         return rev_tree
 
     @staticmethod
-    def parse(deflate: bytes) -> Huffman:
+    def parse(deflate: bytes) -> "Huffman":
         CLEN_ORDER = [16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]
         reader = BitReader(deflate)
 
@@ -136,23 +135,23 @@ class Huffman:
             BitString(BitReader(deflate).read(used), used),
         )
 
-    def encode_lit(self, x: int) -> Optional[BitString]:
+    def encode_lit(self, x: int) -> BitString | None:
         return self.lit.get(x)
 
-    def encode_len(self, x: int) -> Optional[BitString]:
+    def encode_len(self, x: int) -> BitString | None:
         start, extra_bits = 3, 0
         for sym in range(257, 285):
-            extra_bits += 264 < sym and sym % 4 == 1
+            extra_bits += sym > 264 and sym % 4 == 1
             if x < start + (1 << extra_bits):
                 code = self.lit.get(sym)
                 return code + BitString(x - start, extra_bits) if code else None
             start += 1 << extra_bits
         return None
 
-    def encode_dist(self, x: int) -> Optional[BitString]:
+    def encode_dist(self, x: int) -> BitString | None:
         start, extra_bits = 1, 0
         for sym in range(30):
-            extra_bits += 3 < sym and sym % 2 == 0
+            extra_bits += sym > 3 and sym % 2 == 0
             if x < start + (1 << extra_bits):
                 code = self.dist.get(sym)
                 return code + BitString(x - start, extra_bits) if code else None
@@ -180,13 +179,11 @@ def merge(state: State, code: BitString, delim: bytes) -> tuple[State, int]:
         if byte == 0:
             prev = 1
             cost += 8
-        elif byte == ord("\r"):
-            prev = 0
-            cost += 8
-        elif byte == ord("\n") and len(delim) == 1:
-            prev = 0
-            cost += 8
-        elif byte == delim[0] and len(delim) == 1:
+        elif (
+            byte == ord("\r")
+            or (byte == ord("\n") and len(delim) == 1)
+            or (byte == delim[0] and len(delim) == 1)
+        ):
             prev = 0
             cost += 8
         else:
@@ -255,7 +252,7 @@ def lz77(data: bytes, huffman: Huffman, delim: bytes) -> bytes:
 
 
 @lru_cache(maxsize=1024)
-def reencode(deflate: bytes, delim: bytes):
+def reencode(deflate: bytes, delim: bytes) -> bytes:
     if deflate[0] & 0b111 == 0b101:
         data = zlib.decompress(deflate, -10)
         return lz77(data, Huffman.parse(deflate), delim)

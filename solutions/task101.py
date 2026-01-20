@@ -1,8 +1,8 @@
-def p(e):
- w,f,r,o,q=[{a+m*20for m,e in enumerate(e)for a,e in enumerate(e)if e==d}for d in range(5)]
- for d in r:o|={d for d in r for m in f|o if abs(d-m)in(1,20)}
- for d in r:p={d}-q and{d-min(len({d+m*(n-2)for n in range(5)}&r)for m in(1,20))*(min(o)-max(o))}&r;q|=p;e=[[e or a+m*20in(p and{d-min(len({d+m*(n-2)for n in range(5)}&r)for m in(1,20))*(min(o)-m)for m in f})for a,e in enumerate(e)]for m,e in enumerate(e)]
- return e
+def p(r):
+ b,a,e,f,m=[{b+m*20for(m,r)in enumerate(r)for(b,r)in enumerate(r)if r==n}for n in range(5)]
+ for n in e:f|={n for n in e for m in a|f if abs(n-m)in(1,20)}
+ for n in e:p={n}-m and{n-min(len({n+m*(r-2)for r in range(5)}&e)for m in(1,20))*(min(f)-max(f))}&e;m|=p;r=[[r or b+m*20in(p and{n-min(len({n+m*(r-2)for r in range(5)}&e)for m in(1,20))*(min(f)-m)for m in a})for(b,r)in enumerate(r)]for(m,r)in enumerate(r)]
+ return r
 # ----------------------------------------------------------------
-# compression: auto
-# oxjam
+# compression: frozen
+# huffman: ad508d0602301006a0a73890fd5211943d49c2d22dd15db98a587bf76ea59404048eefd77d

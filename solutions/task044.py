@@ -1,17 +1,15 @@
-def p(i):
- for f in range(100):
-  r=[n for n in range(100)if i[n//10][n%10]<5in i[n//10][:n%10]and 5in i[n//10][n%10:]and n<50]
-  t=[n for n in range(100)if i[n//10][n%10]==f]
-  if[r[0]-f for f in r]==[t[0]-f for f in t]:
-   for n in r:i[n//10][n%10]=f
-   for n in t:i[n//10][n%10]=0
- for f in range(100):
-  r=[n for n in range(100)if i[n//10][n%10]<5in i[n//10][:n%10]and 5in i[n//10][n%10:]and n>50]
-  t=[n for n in range(100)if i[n//10][n%10]==f]
-  if[r[0]-f for f in r]==[t[0]-f for f in t]:
-   for n in r:i[n//10][n%10]=f
-   for n in t:i[n//10][n%10]=0
- return i
+def p(r):
+ for n in range(100):
+  e=[f for f in range(100)if r[f//10][f%10]<5in r[f//10][:f%10]and 5in r[f//10][f%10:]and f<50];i=[f for f in range(100)if r[f//10][f%10]==n]
+  if[e[0]-n for n in e]==[i[0]-n for n in i]:
+   for f in e:r[f//10][f%10]=n
+   for f in i:r[f//10][f%10]=0
+ for n in range(100):
+  e=[f for f in range(100)if r[f//10][f%10]<5in r[f//10][:f%10]and 5in r[f//10][f%10:]and f>50];i=[f for f in range(100)if r[f//10][f%10]==n]
+  if[e[0]-n for n in e]==[i[0]-n for n in i]:
+   for f in e:r[f//10][f%10]=n
+   for f in i:r[f//10][f%10]=0
+ return r
 # ----------------------------------------------------------------
-# compression: auto
-# jailctf
+# compression: frozen
+# huffman: cd500b0680600c06a0530ca29016825e17991fd196c1cad4fdab2005020986ef6d

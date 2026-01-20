@@ -1,7 +1,7 @@
-def p(s):
- for e,n in sorted([[-i.count(2),i]for l in range(len(s)-2)for r in range(len(s[0])-2)if all(i:=[s[l+e][r+f]for e in range(3)for f in range(3)])and{*i}!={2}!=[2for e in range(3)for f in range(3)for s[l+e][r+f]in[0]]]):
-  for e in range(4):[[2for e in range(3)for f in range(3)for s[l+e][r+f]in[n[e*3+f]]]for l in range(len(s)-2)for r in range(len(s[0])-2)if all(s[l+e][r+f]==2!=n[e*3+f]or n[e*3+f]-s[l+e][r+f]==2in s[l+e]for e in range(3)for f in range(3))];s=[s[::-1]for*s,in zip(*s)if 2in s]
- return s
+def p(n):
+ for i,o in sorted([[-e.count(2),e]for f in range(len(n)-2)for d in range(len(n[0])-2)if all(e:=[n[f+i][d+e]for i in range(3)for e in range(3)])and{*e}!={2}!=[2for i in range(3)for e in range(3)for n[f+i][d+e]in[0]]]):
+  for i in range(4):[[2for i in range(3)for e in range(3)for n[f+i][d+e]in[o[i*3+e]]]for f in range(len(n)-2)for d in range(len(n[0])-2)if all(n[f+i][d+e]==2!=o[i*3+e]or o[i*3+e]-n[f+i][d+e]==2in n[f+i]for i in range(3)for e in range(3))];n=[n[::-1]for*n,in zip(*n)if 2in n]
+ return n
 # ----------------------------------------------------------------
-# compression: auto
-# jailctf
+# compression: frozen
+# huffman: a550c54280000cbdf315e3461ae009e54be64c864e71b4cdbfc3cc6e9a578b

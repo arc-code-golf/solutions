@@ -1,4 +1,4 @@
-def p(r):i,u=range,15;f=sum(r,p:=[]);r=[[]];[(r:=[r+[(n,p)]for r in r for n in i(3*u)if f[n]<1],p:=[])for n in i(3*u)if p==(p:=p+[i for i in i(n,150,u)if f[i]&(n<u)])>[]];return max([*zip(*[((any(i+min(r)-n in r for n,r in r if n%u<5+i%u)+f[i]%5)%3for i in i(150))]*u)]for r in r)
+def p(i):n,m=range,15;f=sum(i,p:=[]);i=[[]];[(i:=[i+[(r,p)]for i in i for r in n(3*m)if f[r]<1],p:=[])for r in n(3*m)if p==(p:=p+[n for n in n(r,150,m)if f[n]&(r<m)])>[]];return max([*zip(*[((any(n+min(i)-r in i for r,i in i if r%m<5+n%m)+f[n]%5)%3for n in n(150))]*m)]for i in i)
 # ----------------------------------------------------------------
-# compression: auto
-# garrymoss
+# compression: frozen
+# huffman: 650fc542c050e8577699c2c2de65f52388bda71cc027b65fbfb489ee
